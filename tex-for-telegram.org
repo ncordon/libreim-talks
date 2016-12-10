@@ -1,0 +1,121 @@
+#+TITLE: Tex for Telegram
+#+AUTHOR: ncordon
+#+STARTUP: beamer
+#+STARTUP: indent
+#+LATEX_CLASS: beamer
+#+BEAMER_FRAME_LEVEL: 3
+#+LATEX_CLASS_OPTIONS:
+#+LATEX_HEADER: \setlength\parskip{1em}
+#+LATEX_HEADER: \mode<beamer>{\usetheme{Madridg}\usecolortheme{rose}}
+#+DESCRIPTION:
+#+KEYWORDS:
+#+SUBTITLE:
+#+LATEX_COMPILER: pdflatex
+#+DATE: \today
+#+OPTIONS: toc:nil
+
+* Why?
+
+- ¿Habéis intentado preguntar alguna duda de mates por correo, Whatsapp o Telegram alguna vez?
+
+- Es una pesadilla. Acaba siendo una mezcla de código en \LaTeX sin renderizar y lenguaje natural
+
+
+* Alternativas
+
+** LaTex2IMGbot
+
+La alternativa en Telegram hasta ahora era usar un bot. De hecho
+fue un compañero, [[https://github.com/analca3][Analca3]], el que diseñó un bot para aportar esta
+característica: [[https://github.com/analca3/LaTeX2IMGbot][LaTeX2IMGbot]] 
+
+Esto tiene el inconveniente de que sólo pueden usarse bots en los grupos,
+manda el código \LaTeX ya renderizado, de forma que no se puede recuperar lo
+escrito.
+
+
+** ChatJax
+
+Hace poco otro compañero descubrió [[http://www.math.ucla.edu/~robjohn/math/mathjax.html][ChatJax]]. Básicamente es 
+una función de \texttt{Javascript} que introduce una etiqueta
+\texttt{<script>} con el código necesario por \texttt{MathJax}, y que al estar
+codificada como una línea de HTML, puede guardarse como un marcador de forma que
+cuando le demos, activaremos \texttt{MathJax} en la página actual.
+
+
+* ChatJax
+
+Empecé usando \texttt{ChatJax}, pero me di cuenta de que tenía un gran problema.
+
+#+ATTR_LATEX: :float t :width 7cm
+[[./latex-in-telegram-unsent.png]]
+#+ATTR_LATEX: :float t :width 7cm
+[[./latex-in-telegram-sent.png]]
+
+
+* Solución
+
+Otros dos marcadores para activar desactivar la cola de \texttt{MathJax}, que proporcionan
+en la misma página de la UCLA desde donde he enlazado ChatJax. Inconveniente: 3 marcadores 
+sólo para usar \LaTeX en Telegram.
+
+*Mi solución:* 
+
+Crear un /Javascript/ instalable con \texttt{GreaseMonkey} (en el caso de Firefox), para no 
+tener que preocuparme de manejar 3 marcadores cada vez que quiero escribir algo en \LaTeX, que
+además sólo afecte a la conversación ya enviada, y no al recuadro de /Escribe un mensaje.../
+
+
+* JavaScript
+
+Yo no sé JavaScript. Y esto está hecho en JavaScript. Pero sólo hacen falta conocimientos básicos.
+
+\tiny
+#+begin_src js
+(function(){
+   if(window.MathJax===undefined){
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+      
+      var config = 'MathJax.Hub.Config({' + '
+         extensions: ["tex2jax.js"],' + 'tex2jax: { 
+         inlineMath: [["$","$"],["\\\\\\\\\\\\(","\\\\\\\\\\\\)"]],
+         displayMath: [["$$","$$"],["\\\\[","\\\\]"]], processEscapes: true },' 
+         + 'jax: ["input/TeX","output/HTML-CSS"]' + '});' 
+         + 'MathJax.Hub.Startup.onload();';
+
+      if (window.opera) {
+         script.innerHTML = config} 
+      else {script.text = config} document.getElementsByTagName("head")[0].appendChild(script);
+
+      (doChatJax=function(){
+          window.setTimeout(doChatJax,1000);
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+      })();
+
+   }
+   else{
+       MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+   }
+})();
+#+end_src
+
+
+* Conocimientos básicos de HTML y MathJax
+
+Conocer la estructura básica de un documento HTML: 
+
+- \texttt{<body>}
+- \texttt{<div>}x
+- \texttt{<header>}
+- \texttt{id="tengo-hermanos"} 
+- \texttt{class="hijo-unico"}
+
+Tener paciencia para leer la documentación de MathJaX hasta que encuentras:
+
+#+begin_src js
+var math = document.getElementById("MathExample");
+MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
+#+end_src
+
