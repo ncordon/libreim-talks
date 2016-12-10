@@ -6,7 +6,7 @@
 #+BEAMER_FRAME_LEVEL: 3
 #+LATEX_CLASS_OPTIONS:
 #+LATEX_HEADER: \setlength\parskip{1em}
-#+LATEX_HEADER: \mode<beamer>{\usetheme{Madridg}\usecolortheme{rose}}
+#+LATEX_HEADER: \mode<beamer>{\usetheme{Madrid}\usecolortheme{rose}}
 #+DESCRIPTION:
 #+KEYWORDS:
 #+SUBTITLE:
@@ -18,7 +18,7 @@
 
 - ¿Habéis intentado preguntar alguna duda de mates por correo, Whatsapp o Telegram alguna vez?
 
-- Es una pesadilla. Acaba siendo una mezcla de código en \LaTeX sin renderizar y lenguaje natural
+- Es una pesadilla. Acaba siendo una mezcla de código en \LaTeX \space sin renderizar y lenguaje natural
 
 
 * Alternativas
@@ -27,10 +27,10 @@
 
 La alternativa en Telegram hasta ahora era usar un bot. De hecho
 fue un compañero, [[https://github.com/analca3][Analca3]], el que diseñó un bot para aportar esta
-característica: [[https://github.com/analca3/LaTeX2IMGbot][LaTeX2IMGbot]] 
+característica: [[https://github.com/analca3/LaTeX2IMGbot][LaTeX2IMGbot]] .
 
 Esto tiene el inconveniente de que sólo pueden usarse bots en los grupos,
-manda el código \LaTeX ya renderizado, de forma que no se puede recuperar lo
+manda el código \LaTeX \space ya renderizado, de forma que no se puede recuperar lo
 escrito.
 
 
@@ -57,7 +57,7 @@ Empecé usando \texttt{ChatJax}, pero me di cuenta de que tenía un gran problem
 
 Otros dos marcadores para activar desactivar la cola de \texttt{MathJax}, que proporcionan
 en la misma página de la UCLA desde donde he enlazado ChatJax. Inconveniente: 3 marcadores 
-sólo para usar \LaTeX en Telegram.
+sólo para usar \LaTeX \space en Telegram.
 
 *Mi solución:* 
 
@@ -107,10 +107,10 @@ Yo no sé JavaScript. Y esto está hecho en JavaScript. Pero sólo hacen falta c
 Conocer la estructura básica de un documento HTML: 
 
 - \texttt{<body>}
-- \texttt{<div>}x
+- \texttt{<div>}
 - \texttt{<header>}
-- \texttt{id="tengo-hermanos"} 
-- \texttt{class="hijo-unico"}
+- \texttt{class="tengo-hermanos"} 
+- \texttt{id="hijo-unico"}
 
 Tener paciencia para leer la documentación de MathJaX hasta que encuentras:
 
@@ -119,3 +119,12 @@ var math = document.getElementById("MathExample");
 MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
 #+end_src
 
+
+* Resultado
+
+- [[https://ncordon.github.io/latex/telegram/maths/2016/10/15/latex-in-telegram.html][Artículo de mi blog]]
+- [[https://greasyfork.org/en/scripts/24067-tex-for-telegram][Script en GreasyFork]]
+
+\begin{center}
+\LARGE Gracias por la atención!
+\end{center}
